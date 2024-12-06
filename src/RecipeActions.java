@@ -4,8 +4,12 @@ public class RecipeActions {
     private List<Recipe> recipeList = new ArrayList<>();
 
     // Method to add a recipe
-    public void addRecipe(String name, List<String> ingredients, String instructions) {
-        Recipe newRecipe = new Recipe(name, ingredients, instructions);
+    public void addRecipe(String name, List<String> ingredients, String instructions, String preparationTime, List<String> equipmentNeeded) {
+        if (findRecipe(name) != null) {
+            System.out.println("Recipe with this name already exists. Consider updating it instead.");
+            return;
+        }
+        Recipe newRecipe = new Recipe(name, ingredients, instructions, preparationTime, equipmentNeeded);
         recipeList.add(newRecipe);
         System.out.println("Recipe added successfully.");
     }
@@ -16,29 +20,39 @@ public class RecipeActions {
             System.out.println("No recipes found.");
             return;
         }
-        System.out.println("\nAll Recipes:");
         for (Recipe recipe : recipeList) {
             System.out.println(recipe);
         }
     }
 
     // Method to remove a recipe
-    public boolean removeRecipe(String name) {
-        Iterator<Recipe> iterator = recipeList.iterator();
-        while (iterator.hasNext()) {
-            Recipe recipe = iterator.next();
-            if (recipe.getRecipeName().equalsIgnoreCase(name)) {
-                iterator.remove();
-                System.out.println("Recipe removed successfully.");
-                return true;
-            }
+    public void removeRecipe(String name) {
+        Recipe recipe = findRecipe(name);
+        if (recipe != null) {
+            recipeList.remove(recipe);
+            System.out.println("Recipe removed successfully.");
+        } else {
+            System.out.println("Recipe not found.");
         }
-        System.out.println("Recipe not found.");
-        return false;
     }
 
-    // Method to find a recipe (optional, for additional functionality)
-    public Recipe findRecipe(String name) {
+    // Method to update a recipe
+    public void updateRecipe(String name, List<String> newIngredients, String newInstructions, String newPreparationTime, List<String> newEquipmentNeeded) {
+        Recipe recipe = findRecipe(name);
+        if (recipe != null) {
+            recipe.incrementVersion();
+            recipe.setIngredients(newIngredients);
+            recipe.setRecipeInstructions(newInstructions);
+            recipe.setPreparationTime(newPreparationTime);
+            recipe.setEquipmentNeeded(newEquipmentNeeded);
+            System.out.println("Recipe updated successfully.");
+        } else {
+            System.out.println("Recipe not found for update.");
+        }
+    }
+
+    // Helper method to find a recipe by name
+    private Recipe findRecipe(String name) {
         for (Recipe recipe : recipeList) {
             if (recipe.getRecipeName().equalsIgnoreCase(name)) {
                 return recipe;
