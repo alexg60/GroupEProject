@@ -1,3 +1,7 @@
+//Alex Gilbert alexg6@umbc.edu
+//MJ Sands Msands1@umbc.edu
+//Rayyaan Dasti
+
 import java.util.*;
 public class Main {
     public static void main(String[] args) {
