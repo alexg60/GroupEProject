@@ -1,106 +1,67 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
-// Recipe Class
-class Recipe {
-    private String name;
-    private String description;
-
-    public Recipe(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return "Recipe Name: " + name + "\nDescription: " + description;
-    }
-}
-
-// Main Class
-public class RecipeManager {
-    private ArrayList<Recipe> recipeList = new ArrayList<>();
-
-    // Add Recipe
-    public void addRecipe(String name, String description) {
-        recipeList.add(new Recipe(name, description));
-        System.out.println("Recipe added successfully!");
-    }
-
-    // Remove Recipe
-    public void removeRecipe(String name) {
-        Recipe recipeToRemove = null;
-        for (Recipe recipe : recipeList) {
-            if (recipe.getName().equalsIgnoreCase(name)) {
-                recipeToRemove = recipe;
-                break;
-            }
-        }
-        if (recipeToRemove != null) {
-            recipeList.remove(recipeToRemove);
-            System.out.println("Recipe removed successfully!");
-        } else {
-            System.out.println("Recipe not found.");
-        }
-    }
-
-    // Display Recipes
-    public void displayRecipes() {
-        if (recipeList.isEmpty()) {
-            System.out.println("No recipes to display.");
-        } else {
-            System.out.println("Recipes:");
-            for (Recipe recipe : recipeList) {
-                System.out.println("-----------------------");
-                System.out.println(recipe);
-            }
-        }
-    }
-
-    // Main Method
+import java.util.*;
+public class Main {
     public static void main(String[] args) {
-        RecipeManager manager = new RecipeManager();
-        Scanner scanner = new Scanner(System.in);
-        int choice;
+        boolean cont = true;
+        Scanner scan = new Scanner(System.in);
+        // Create an instance of RecipeActions
+        RecipeActions recipeActions = new RecipeActions();
+        // Create Recipe objects
+        Recipe pancakeRecipe = new Recipe("Pancakes",
+                Arrays.asList("Flour", "Milk", "Eggs", "Sugar", "Salt"),
+                        "Mix all ingredients and cook on a skillet."
+                );
+
+                Recipe omeletteRecipe = new Recipe(
+                        "Omelette",
+                        Arrays.asList("Eggs", "Milk", "Salt", "Pepper"),
+                        "Whisk eggs with milk, add salt and pepper, and cook in a pan."
+                );
+
+                // Add recipes to RecipeActions
+                recipeActions.addRecipe(pancakeRecipe);
+                recipeActions.addRecipe(omeletteRecipe);
 
         do {
-            System.out.println("\nRecipe Manager");
-            System.out.println("1. Add Recipe");
-            System.out.println("2. Remove Recipe");
-            System.out.println("3. Display Recipes");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            System.out.println("\nRecipe Management System");
+            System.out.println("1: Add New Recipe");
+            System.out.println("2: Remove Recipe");
+            System.out.println("3: View All Recipes");
+            System.out.println("4: Quit");
+            System.out.print("Enter Choice: ");
+            int input = scan.nextInt();
 
-            switch (choice) {
+            switch (input){
                 case 1:
-                    System.out.print("Enter recipe name: ");
-                    String name = scanner.nextLine();
-                    System.out.print("Enter recipe description: ");
-                    String description = scanner.nextLine();
-                    manager.addRecipe(name, description);
+                    System.out.println("Enter recipe name: ");
+                    String name = scan.nextLine();
+                    name = scan.nextLine();
+                    System.out.println("Enter ingredients (comma-separated): ");
+                    String ingredientInput = scan.nextLine();
+                    List<String> ingredients = Arrays.asList(ingredientInput.split("\\s*,\\s*"));
+
+                    System.out.print("Enter instructions: ");
+                    String instructions = scan.nextLine();
+
+                    Recipe newRecipe = new Recipe(name, ingredients, instructions);
+                    recipeActions.addRecipe(newRecipe);
                     break;
                 case 2:
                     System.out.print("Enter the name of the recipe to remove: ");
-                    String removeName = scanner.nextLine();
-                    manager.removeRecipe(removeName);
+                    String recipeToRemove = scan.nextLine();
+                    recipeToRemove = scan.nextLine();
+                    recipeActions.removeRecipe(recipeToRemove);
                     break;
                 case 3:
-                    manager.displayRecipes();
+                    recipeActions.printAllRecipes();
                     break;
                 case 4:
-                    System.out.println("Exiting Recipe Manager. Goodbye!");
+                    cont = false;
+                    System.out.println("Quiting the Recipe Management System");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Error: Invalid Input, Try again");
             }
-        } while (choice != 4);
-
-        scanner.close();
+        }while(cont == true);
+        scan.close();
     }
 }
