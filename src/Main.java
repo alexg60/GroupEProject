@@ -8,19 +8,18 @@ public class Main {
         // Create Recipe objects
         Recipe pancakeRecipe = new Recipe("Pancakes",
                 Arrays.asList("Flour", "Milk", "Eggs", "Sugar", "Salt"),
-                        "Mix all ingredients and cook on a skillet."
-                );
+                "Mix all ingredients and cook on a skillet."
+        );
 
-                Recipe omeletteRecipe = new Recipe(
-                        "Omelette",
-                        Arrays.asList("Eggs", "Milk", "Salt", "Pepper"),
-                        "Whisk eggs with milk, add salt and pepper, and cook in a pan."
-                );
+        Recipe omeletteRecipe = new Recipe(
+                "Omelette",
+                Arrays.asList("Eggs", "Milk", "Salt", "Pepper"),
+                "Whisk eggs with milk, add salt and pepper, and cook in a pan."
+        );
 
-                // Add recipes to RecipeActions
-                recipeActions.addRecipe(pancakeRecipe);
-                recipeActions.addRecipe(omeletteRecipe);
-
+        // Add recipes to RecipeActions
+        recipeActions.addRecipe(pancakeRecipe);
+        recipeActions.addRecipe(omeletteRecipe);
         do {
             System.out.println("\nRecipe Management System");
             System.out.println("1: Add New Recipe");
